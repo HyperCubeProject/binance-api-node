@@ -249,6 +249,32 @@ declare module 'binance-api-node' {
     }[]
   }
 
+  export interface QueryFuturesOrderResult {
+    avgPrice: string
+    clientOrderId: string
+    cumQuote: string
+    executedQty: string
+    orderId: number
+    origQty: string
+    origType: string
+    price: string
+    reduceOnly: boolean
+    side: string
+    positionSide: string
+    status: string
+    stopPrice: string
+    closePosition: boolean
+    symbol: string
+    time: number
+    timeInForce: string
+    type: string
+    activatePrice: string
+    priceRate: string
+    updateTime: number
+    workingType: string
+    priceProtect: boolean    
+  }
+
   export interface Binance {
     getInfo(): GetInfo
     accountInfo(options?: { useServerTime: boolean }): Promise<Account>
@@ -367,6 +393,7 @@ declare module 'binance-api-node' {
       limit?: number
     }): Promise<FundingRateResult[]>
     futuresOrder(options: NewOrder): Promise<Order>
+    futuresGetOrder(options: GetOrderOptions & { recvWindow?: number }): Promise<QueryFuturesOrderResult>
     futuresCancelOrder(options: {
       symbol: string
       orderId: number
@@ -375,7 +402,15 @@ declare module 'binance-api-node' {
     futuresOpenOrders(options: {
       symbol?: string
       useServerTime?: boolean
-    }): Promise<QueryOrderResult[]>
+    }): Promise<QueryFuturesOrderResult[]>
+    futuresAllOrders(options: {
+      symbol: string
+      orderId?: number
+      startTime?: number
+      endTime?: number
+      limit?: number
+      recvWindow?: number
+    }): Promise<QueryFuturesOrderResult[]>
     futuresPositionRisk(options?: { recvWindow: number }): Promise<PositionRiskResult[]>
     futuresLeverageBracket(options?: { 
       symbol?: string,
